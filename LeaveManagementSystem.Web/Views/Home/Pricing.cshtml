@@ -1,0 +1,104 @@
+@model LeaveManagementSystem.Web.Models.PricingViewModel
+
+@{
+    ViewData["Title"] = "Pricing";
+}
+
+<div class="pricing-page">
+    <section class="pricing-hero text-center" aria-labelledby="pricing-title">
+        <p class="pricing-eyebrow">Simple plans for better time off</p>
+        <h1 id="pricing-title">A plan for every team.</h1>
+        <p class="pricing-hero__lead">
+            Make leave requests simple for employees and approvals effortless for managers.
+            Choose the tools that fit the way your organization works.
+        </p>
+        <div class="pricing-note">
+            <span class="pricing-note__icon" aria-hidden="true">✓</span>
+            <span>Every plan includes secure leave requests, approval workflows, and employee self-service.</span>
+        </div>
+    </section>
+
+    <section class="pricing-grid" aria-label="Service tiers">
+        @foreach (var tier in Model.Tiers)
+        {
+            <article class="pricing-card @(tier.IsFeatured ? "pricing-card--featured" : string.Empty)">
+                @if (tier.IsFeatured)
+                {
+                    <div class="pricing-card__badge">Most popular</div>
+                }
+                <div>
+                    <p class="pricing-card__eyebrow">@tier.Eyebrow</p>
+                    <h2>@tier.Name</h2>
+                    <p class="pricing-card__description">@tier.Description</p>
+                    <p class="pricing-card__price"><span>$</span>@tier.MonthlyPrice.ToString("0")<small> / user / month</small></p>
+                </div>
+                <a class="pricing-card__button @(tier.IsFeatured ? "pricing-card__button--solid" : "pricing-card__button--outline")" href="#get-started">
+                    @(tier.IsFeatured ? "Choose Team" : tier.Name == "Business" ? "Talk to our team" : "Get started")
+                </a>
+                <p class="pricing-card__caption">@tier.Audience</p>
+                <ul class="pricing-features">
+                    @foreach (var feature in tier.Features)
+                    {
+                        <li>@feature</li>
+                    }
+                </ul>
+            </article>
+        }
+    </section>
+
+    <section class="pricing-compare" aria-labelledby="compare-title">
+        <div class="pricing-section-heading">
+            <p class="pricing-eyebrow">Compare features</p>
+            <h2 id="compare-title">The right tools, at the right scale.</h2>
+            <p>Every tier is built around a clear, fair leave experience for employees and administrators.</p>
+        </div>
+        <div class="table-responsive">
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Included features</th>
+                        @foreach (var tier in Model.Tiers)
+                        {
+                            <th scope="col" class="@(tier.IsFeatured ? "pricing-table__featured" : string.Empty)">@tier.Name</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Employee self-service</th>
+                        <td>Included</td>
+                        <td class="pricing-table__featured">Included</td>
+                        <td>Included</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Approval workflows</th>
+                        <td>Standard</td>
+                        <td class="pricing-table__featured">Custom</td>
+                        <td>Advanced</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Leave reporting</th>
+                        <td>—</td>
+                        <td class="pricing-table__featured">Included</td>
+                        <td>Advanced</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Organization controls</th>
+                        <td>Basic</td>
+                        <td class="pricing-table__featured">Custom</td>
+                        <td>Advanced</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="pricing-cta" id="get-started" aria-labelledby="pricing-cta-title">
+        <div>
+            <p class="pricing-eyebrow">Ready when you are</p>
+            <h2 id="pricing-cta-title">Make time off easier for everyone.</h2>
+            <p>These are presentation examples. Contact your administrator to discuss the right setup for your organization.</p>
+        </div>
+        <a class="pricing-cta__button" asp-controller="Home" asp-action="Index">Explore the system <span aria-hidden="true">→</span></a>
+    </section>
+</div>
